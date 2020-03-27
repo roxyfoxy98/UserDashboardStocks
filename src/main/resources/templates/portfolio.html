@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head th:replace="template :: head">
+</head>
+<body>
+<div class="container">
+
+    <div id="top" th:include="template :: masthead"></div>
+
+    <div id="middle">
+
+        <!-- Display portfolio -->
+        <p>Portfolio!</p>
+        <table class = "table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Number of shares owned</th>
+                    <th>Current price</th>
+                    <th>Total Value</th>
+                    <th>Total invested</th>
+                    <th>Profit/ Loss</th>
+                </tr>
+            </thead>
+
+            <!--data iteration here-->
+            <tr th:each="stockPart:${stockParts}">
+                <td th:text="${stockPart.value.nameString}"></td>
+                <td th:text="${stockPart.value.shareNum}"></td>
+                <td th:text="${stockPart.value.price}"></td>
+                <td th:text="${stockPart.value.totalValue}"></td>
+                <td th:text="${stockPart.value.totalInvestment}"></td>
+                <td th:text="${stockPart.value.ProfitLoss}"></td>
+            </tr>
+            <tr>
+                <td colspan="4">CASH</td>
+                <td th:text="${cash}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:replace="template :: footer"></div>
+</div>
+</body>
+</html>
+<!---->

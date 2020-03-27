@@ -1,0 +1,12 @@
+*.idea
+*.iml
+*.class
+target
+out
+*.DS_Store
+*~
+
+# Package Files #
+*.jar
+*.war
+*.ear
