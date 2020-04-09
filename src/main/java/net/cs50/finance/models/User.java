@@ -69,7 +69,7 @@ public class User extends AbstractEntity {
         this.investment = investment;
     }
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id")
     public Map<String, StockHolding> getPortfolio() {
         return portfolio;
@@ -79,7 +79,7 @@ public class User extends AbstractEntity {
         this.portfolio = portfolio;
     }
 
-    @NotNull
+
     @Column(name = "cash")
     public double getCash() { return cash; }
 
@@ -96,4 +96,12 @@ public class User extends AbstractEntity {
         portfolio.put(holding.getSymbol(), holding);
     }
 
+  public   void deleteholding (StockHolding holding)
+    {
+        if (portfolio.containsKey(holding.getSymbol()))
+        {
+            portfolio.replace(holding.getSymbol(),null);
+            portfolio.remove(holding.getSymbol());
+        }
+    }
 }

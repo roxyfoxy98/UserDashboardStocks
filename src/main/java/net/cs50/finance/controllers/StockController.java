@@ -3,12 +3,17 @@ package net.cs50.finance.controllers;
 import net.cs50.finance.models.*;
 import net.cs50.finance.models.dao.StockHoldingDao;
 import net.cs50.finance.models.dao.StockTransactionDao;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
@@ -39,10 +44,15 @@ public class StockController extends AbstractFinanceController {
     }
 
     @RequestMapping(value = "/quote", method = RequestMethod.POST)
-    public String quote(String symbol, Model model) throws StockLookupException {
+    public String quote(String symbol, Model model) throws Exception {
+
 
         // Implement quote lookup
         yahoofinance.Stock mystock = Stock.lookupStock(symbol);
+        if (mystock==null)
+        {
+            throw new Exception( "Please check the Quote Symbol and try again");
+        }
         Float stockPrice = Float.parseFloat(mystock.getQuote().getPrice().toString());
         model.addAttribute("stock_price", stockPrice);
 
@@ -66,33 +76,47 @@ public class StockController extends AbstractFinanceController {
     }
 
     @RequestMapping(value = "/buy", method = RequestMethod.POST)
-    public String buy(String symbol, int numberOfShares, HttpServletRequest request, Model model) throws IOException {
+    public String buy(String symbol, String numberOfShares, HttpServletRequest request, Model model) throws Exception {
 
         // implement buyshares(user, symbol, #shares)
         User user = getUserFromSession(request);
-
+        if (symbol=="" || symbol==" ")
+        {
+            throw new Exception("Please insert a valid symbol");
+        }
         StockHolding holding = null;
+
         try {
-             holding = StockHolding.buyShares(user, symbol, numberOfShares);
-        } catch (StockLookupException | IOException e) {
-            e.printStackTrace();
+            Integer.parseInt(numberOfShares);
+        } catch (Exception exc1) {
+            throw new Exception ("Please insert a NUMBER of shares");
+        };
+
+
+            try {
+
+
+                holding = StockHolding.buyShares(user, symbol, Integer.parseInt(numberOfShares));
+            } catch (StockLookupException | IOException e) {
+                e.printStackTrace();
+            }
+
+            stockHoldingDao.save(holding);
+            // save user with UserDao
+            userDao.save(user);
+
+            List<StockTransaction> transactions = stockTransactionDao.findBySymbolAndUserId(symbol.toUpperCase(), user.getUid());
+            holding = StockHolding.updateaverageprice(user, symbol, transactions);
+            stockHoldingDao.save(holding);
+
+
+            model.addAttribute("title", "Buy");
+            model.addAttribute("action", "/buy");
+            model.addAttribute("buyNavClass", "active");
+
+            return "transaction_confirm";
         }
 
-        stockHoldingDao.save(holding);
-        // save user with UserDao
-        userDao.save(user);
-
-        List<StockTransaction> transactions= stockTransactionDao.findBySymbolAndUserId(symbol.toUpperCase(),user.getUid());
-        holding=StockHolding.updateaverageprice(user,symbol,transactions);
-        stockHoldingDao.save(holding);
-
-
-        model.addAttribute("title", "Buy");
-        model.addAttribute("action", "/buy");
-        model.addAttribute("buyNavClass", "active");
-
-        return "transaction_confirm";
-    }
 
     @RequestMapping(value = "/sell", method = RequestMethod.GET)
     public String sellForm(Model model) {
@@ -103,21 +127,58 @@ public class StockController extends AbstractFinanceController {
     }
 
     @RequestMapping(value = "/sell", method = RequestMethod.POST)
-    public String sell(String symbol, int numberOfShares, HttpServletRequest request, Model model) {
+    public String sell(String symbol, String numberOfShares, HttpServletRequest request, Model model) throws Exception {
 
         // Implement sell action
         // implement sellShares(user, symbol, #shares)
-        User user = getUserFromSession(request);
 
+        if (symbol=="" || symbol==" ")
+        {
+            throw new Exception("Please insert a valid symbol");
+        }
+        User user = getUserFromSession(request);
+        int id= user.getUid();
+
+        StockHolding holdingtest=stockHoldingDao.findBySymbolAndOwnerId(symbol,id);
+if (holdingtest==null)
+{
+    throw new Exception("Please check the symbol to be suitable for your portfolio");
+}
         StockHolding holding = null;
+
         try {
-            holding = StockHolding.sellShares(user, symbol, numberOfShares);
+            Integer.parseInt(numberOfShares);
+        } catch (Exception exc1) {
+            throw new Exception ("Please insert a NUMBER of shares");
+        };
+
+        try {
+            holding = StockHolding.sellShares(user, symbol, Integer.parseInt(numberOfShares));
+        } catch (Exception ex2) { throw new Exception("Please insert a valid symbol for the portfolio");
+
+
+        }
+      /*  try {
+            holding = StockHolding.sellShares(user, symbol, Integer.parseInt(numberOfShares));
         } catch (StockLookupException | IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+*/
+
 
         stockHoldingDao.save(holding);
         userDao.save(user);
+
+        holdingtest=stockHoldingDao.findBySymbolAndOwnerId(symbol,id);
+
+        int numberOfRemainingShares=holdingtest.getSharesOwned();
+        if (numberOfRemainingShares==0) stockHoldingDao.delete(holdingtest);
+
+        stockHoldingDao.save(holding);
+        userDao.save(user);
+
 
         model.addAttribute("title", "Sell");
         model.addAttribute("action", "/sell");

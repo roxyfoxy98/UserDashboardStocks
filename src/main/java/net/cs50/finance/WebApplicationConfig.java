@@ -1,13 +1,14 @@
 package net.cs50.finance;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-/**
- * Created by cbay on 5/11/15.
- */
+import javax.persistence.EntityManagerFactory;
+
 
 @Configuration
 public class WebApplicationConfig extends WebMvcConfigurerAdapter {
@@ -21,6 +22,13 @@ public class WebApplicationConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor( authenticationInterceptor() );
+    }
+
+    @Bean
+    public HibernateJpaSessionFactoryBean sessionFactory(EntityManagerFactory emf) {
+        HibernateJpaSessionFactoryBean fact = new HibernateJpaSessionFactoryBean();
+        fact.setEntityManagerFactory(emf);
+        return fact;
     }
 
 }

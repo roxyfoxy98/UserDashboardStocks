@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static javax.persistence.CascadeType.*;
+
 /**
  * Created by cbay on 5/10/15.
  */
@@ -70,8 +72,8 @@ public class StockHolding extends AbstractEntity {
         this.averagePrice = averagePrice;
     }
 
-    @NotNull
-    @Column(name = "owner_id", nullable = false)
+
+    @Column(name = "owner_id", nullable = true)
     public int getOwnerId(){
         return ownerId;
     }
@@ -80,8 +82,8 @@ public class StockHolding extends AbstractEntity {
         this.ownerId = ownerId;
     }
 
-    @NotNull
-    @Column(name = "symbol", nullable = false)
+
+    @Column(name = "symbol")
     public String getSymbol() {
         return symbol;
     }
@@ -90,8 +92,8 @@ public class StockHolding extends AbstractEntity {
         this.symbol = symbol;
     }
 
-    @NotNull
-    @Column(name = "shares_owned", nullable = false)
+
+    @Column(name = "shares_owned")
     public int getSharesOwned() {
         return sharesOwned;
     }
@@ -100,7 +102,7 @@ public class StockHolding extends AbstractEntity {
         this.sharesOwned = sharesOwned;
     }
 
-    @OneToMany(mappedBy = "stockHolding", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "stockHolding", cascade = CascadeType.ALL,orphanRemoval = true)
     public List<StockTransaction> getTransactions() {
         return transactions;
     }
@@ -116,7 +118,7 @@ public class StockHolding extends AbstractEntity {
      * @throws IllegalArgumentException if numberOfShares < 0
      * @throws StockLookupException     if unable to lookup stock info
      */
-    private void buyShares(int numberOfShares) throws StockLookupException {
+    private void buyShares(int numberOfShares) throws Exception {
 
         if (numberOfShares < 0) {
             throw new IllegalArgumentException("Can not purchase a negative number of shares.");
@@ -153,7 +155,7 @@ public class StockHolding extends AbstractEntity {
      * @throws IllegalArgumentException if numberOfShares greater than shares owned
      * @throws StockLookupException     if unable to lookup stock info
      */
-    private void sellShares(int numberOfShares) throws StockLookupException, IOException {
+    private void sellShares(int numberOfShares) throws Exception {
         yahoofinance.Stock stock= YahooFinance.get(symbol);
 
         if (numberOfShares > sharesOwned) {
@@ -180,7 +182,7 @@ public class StockHolding extends AbstractEntity {
      * @return                  the holding for the user and symbol
      * @throws IllegalArgumentException
      */
-    public static StockHolding buyShares(User user, String symbol, int numberOfShares) throws StockLookupException, IOException {
+    public static StockHolding buyShares(User user, String symbol, int numberOfShares) throws Exception {
         // make sure symbol matches case convention
         symbol = symbol.toUpperCase();
 
@@ -264,7 +266,7 @@ return holding;
 
 
         public static StockHolding sellShares (User user, String symbol,int numberOfShares) throws
-        StockLookupException, IOException {
+                Exception {
 
             // make sure symbol matches case convention, symbol toupperCase
             symbol = symbol.toUpperCase();

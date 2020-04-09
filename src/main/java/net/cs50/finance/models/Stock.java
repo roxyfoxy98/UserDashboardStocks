@@ -56,17 +56,19 @@ public class Stock {
      * @param symbol stock symbol
      * @return Stock instance with current price information, if available, null otherwise
      */
-    public static yahoofinance.Stock lookupStock(String symbol) throws StockLookupException {
+    public static yahoofinance.Stock lookupStock(String symbol) throws Exception {
 
         yahoofinance.Stock stock = null;
 
-        {
-            try {
+
+
                 stock = YahooFinance.get(symbol);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+         if (stock== null)
+         {
+             throw new Exception("Please check the symbol and try again");
+         }
+
+
 
         BigDecimal price = stock.getQuote().getPrice();
         BigDecimal change = stock.getQuote().getChangeInPercent();

@@ -40,8 +40,7 @@ public class AuthenticationController extends AbstractFinanceController {
             return this.displayError(
                     "The username " + userName + " already exits in the system. Please select a different username", model);
         }
-        else if (!password.equals(confirmPassword)) {
-            return this.displayError("Passwords do not match. Try again.", model);
+        else if (!password.equals(confirmPassword)) {    return this.displayError("Passwords do not match. Try again.", model);
         }
 
         // Validation passed. Create and persist a new User entity

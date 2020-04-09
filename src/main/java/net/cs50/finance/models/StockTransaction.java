@@ -1,9 +1,6 @@
 package net.cs50.finance.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -46,7 +43,7 @@ public StockTransaction() throws StockLookupException {
   }
 
 
-    public StockTransaction(StockHolding stockHolding, int shares, TransactionType type) throws StockLookupException {
+    public StockTransaction(StockHolding stockHolding, int shares, TransactionType type) throws Exception {
         this.shares = shares;
         this.stockHolding = stockHolding;
         this.transactionTime = new Date();
@@ -68,7 +65,7 @@ public StockTransaction() throws StockLookupException {
                 '}';
     }
 
-    @ManyToOne
+    @ManyToOne // maybe CascadeType.REMOVE is enough for you
     public StockHolding getStockHolding() {
         return stockHolding;
     }
@@ -77,8 +74,8 @@ public StockTransaction() throws StockLookupException {
         this.stockHolding = stockHolding;
     }
 
-    @NotNull
-    @Column(name = "shares", nullable = false)
+
+    @Column(name = "shares")
     public int getShares() {
         return shares;
     }
@@ -87,8 +84,8 @@ public StockTransaction() throws StockLookupException {
         this.shares = shares;
     }
 
-    @NotNull
-    @Column(name = "price", nullable = false)
+
+    @Column(name = "price")
     public float getPrice() {
         return price;
     }
@@ -98,7 +95,7 @@ public StockTransaction() throws StockLookupException {
     }
 
 
-    @Column(name = "transaction_time", nullable = false)
+    @Column(name = "transaction_time")
     public Date getTransationTime() {
         return transactionTime;
     }
@@ -107,8 +104,8 @@ public StockTransaction() throws StockLookupException {
         this.transactionTime = transationTime;
     }
 
-    @NotNull
-    @Column(name = "symbol", nullable = false)
+
+    @Column(name = "symbol")
     public String getSymbol() {
         return symbol;
     }
@@ -117,8 +114,8 @@ public StockTransaction() throws StockLookupException {
         this.symbol = symbol;
     }
 
-    @NotNull
-    @Column(name = "user_id", nullable = false)
+
+    @Column(name = "user_id")
     public int getUserId() {
         return userId;
     }
@@ -127,8 +124,8 @@ public StockTransaction() throws StockLookupException {
         this.userId = userId;
     }
 
-    @NotNull
-    @Column(name = "type", nullable = false)
+
+    @Column(name = "type")
     public TransactionType getType() {
         return this.type;
     }
