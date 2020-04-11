@@ -62,59 +62,59 @@ public class PortfolioController extends AbstractFinanceController {
 
         // Iterate over portfolio
         for (StockHolding holding : portfolio.values()) {
+            if (holding.getSharesOwned() != 0) {
+                // make a hashmap to store the row
+                HashMap<String, String> row = new HashMap<String, String>();
 
-            // make a hashmap to store the row
-            HashMap<String, String> row = new HashMap<String, String>();
+                // get symbol
+                String symbol = holding.getSymbol();
 
-            // get symbol
-            String symbol = holding.getSymbol();
+                // get sharesOwned
+                int shareNum = holding.getSharesOwned();
+                double investment = Math.round(holding.getInvestment() * 100.00) / 100.00;
 
-            // get sharesOwned
-            int shareNum = holding.getSharesOwned();
-            double investment = Math.round(holding.getInvestment() * 100.00) / 100.00;
+                // use symbol to lookup stock(returns symbol,name,price)
+                try {
+                    myLookup = Stock.lookupStock(symbol);
+                } catch (StockLookupException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                double profit;
+                // get price
+                double price = Double.parseDouble(myLookup.getQuote().getPrice().toString());
 
-            // use symbol to lookup stock(returns symbol,name,price)
-            try {
-                myLookup = Stock.lookupStock(symbol);
-            } catch (StockLookupException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                // get totalValue
+                double totalValue = price * shareNum;
+
+                // use Stock.toString() to concatenate name and symbol
+                String nameString = myLookup.toString();
+
+                // round price, total value to display 2 decimals
+                double displayPrice = Math.round(price * 100.00) / 100.00;
+                double displayValue = Math.round(totalValue * 100.00) / 100.00;
+                if (holding.getSharesOwned() == 0) {
+                    profit = Math.round((holding.getClosevalue() - investment) * 100.00) / 100.00;
+                    // System.out.println(holding.getClosevalue());
+
+                } else {
+                    profit = Math.round((displayValue - investment) * 100.00) / 100.00;
+                }
+
+
+                // put stockParts into HashMap
+                row.put("nameString", nameString);
+                row.put("symbol", symbol);
+                row.put("shareNum", String.valueOf(shareNum));
+                row.put("price", String.valueOf(displayPrice));
+                row.put("totalValue", String.valueOf(displayValue));
+                row.put("totalInvestment", String.valueOf(investment));
+                row.put("ProfitLoss", String.valueOf(profit));
+
+                stockParts.put(symbol, row);
             }
-            double profit;
-            // get price
-            double price = Double.parseDouble(myLookup.getQuote().getPrice().toString());
-
-            // get totalValue
-            double totalValue = price * shareNum;
-
-            // use Stock.toString() to concatenate name and symbol
-            String nameString = myLookup.toString();
-
-            // round price, total value to display 2 decimals
-            double displayPrice = Math.round(price * 100.00) / 100.00;
-            double displayValue = Math.round(totalValue * 100.00) / 100.00;
-            if (holding.getSharesOwned() == 0) {
-                profit = Math.round((holding.getClosevalue() - investment) * 100.00) / 100.00;
-                // System.out.println(holding.getClosevalue());
-
-            } else {
-                profit = Math.round((displayValue - investment) * 100.00) / 100.00;
-            }
-
-
-            // put stockParts into HashMap
-            row.put("nameString", nameString);
-            row.put("symbol", symbol);
-            row.put("shareNum", String.valueOf(shareNum));
-            row.put("price", String.valueOf(displayPrice));
-            row.put("totalValue", String.valueOf(displayValue));
-            row.put("totalInvestment", String.valueOf(investment));
-            row.put("ProfitLoss", String.valueOf(profit));
-
-            stockParts.put(symbol, row);
         }
-
         // get user cash and add to array
         double cash = user.getCash();
 
@@ -152,55 +152,7 @@ public class PortfolioController extends AbstractFinanceController {
 
         }
 
-        //holdingdao.save(holdingtest);
-        //userDao.save(user);
-        int eu = 0;
-        holdingtest = holdingdao.findBySymbolAndOwnerId(idsymbol, id);
-        eu = holdingtest.getUid();
-        int numberOfRemainingShares = holdingtest.getSharesOwned();
-        if (numberOfRemainingShares == 0) {
-
-
-/*
-            SessionFactory sessFact = HibernateUtil.getSessionFactory();
-            Session session = sessFact.getCurrentSession();
-            org.hibernate.Transaction tr = session.beginTransaction();
-
-            //StockHolding sh = (StockHolding) session.load(StockHolding.class, 2);
-
-            //Delete the object
-            session.delete(holdingtest);
-
-            tr.commit();
-            System.out.println("Data Updated");
-            //sessFact.close();
-*/
-         /*  EntityManagerFactory factory =emFactory;
-            EntityManager manager = factory.getEntityManager();
-
-            manager.getTransaction().begin();
-            manager.remove(manager.contains(holdingtest) ? holdingtest : manager.merge(holdingtest));
-            Session session= manager.unwrap(Session.class);
-            session.merge(holdingtest);
-
-            manager.remove(holdingtest);
-            manager.getTransaction().commit();
-
-           // eu=holdingdao.deleteStockHoldingBySymbolAndOwnerId(idsymbol,id);*/
-        //   Session session = sessionFactory.openSession();
-         //  Transaction tx = session.beginTransaction();
-
-            user.deleteholding(holdingtest);
-            userDao.save(user);
-
-
-        //  holdingdao.delete(holdingtest);
-           // tx.commit();
-        }
-
-        System.out.println(eu);
-
-       // userDao.save(user);
+        holdingdao.save(holdingtest);
 
 //todo: refactor
 
@@ -213,57 +165,58 @@ public class PortfolioController extends AbstractFinanceController {
 
         // Iterate over portfolio
         for (StockHolding holding : portfolio.values()) {
+            if (holding.getSharesOwned() != 0) {
+                // make a hashmap to store the row
+                HashMap<String, String> row = new HashMap<String, String>();
 
-            // make a hashmap to store the row
-            HashMap<String, String> row = new HashMap<String, String>();
+                // get symbol
+                String symbol = holding.getSymbol();
 
-            // get symbol
-            String symbol = holding.getSymbol();
+                // get sharesOwned
+                int shareNum = holding.getSharesOwned();
+                double investment = Math.round(holding.getInvestment() * 100.00) / 100.00;
 
-            // get sharesOwned
-            int shareNum = holding.getSharesOwned();
-            double investment = Math.round(holding.getInvestment() * 100.00) / 100.00;
+                // use symbol to lookup stock(returns symbol,name,price)
+                try {
+                    myLookup = Stock.lookupStock(symbol);
+                } catch (StockLookupException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                double profit;
+                // get price
+                double price = Double.parseDouble(myLookup.getQuote().getPrice().toString());
 
-            // use symbol to lookup stock(returns symbol,name,price)
-            try {
-                myLookup = Stock.lookupStock(symbol);
-            } catch (StockLookupException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
+                // get totalValue
+                double totalValue = price * shareNum;
+
+                // use Stock.toString() to concatenate name and symbol
+                String nameString = myLookup.toString();
+
+                // round price, total value to display 2 decimals
+                double displayPrice = Math.round(price * 100.00) / 100.00;
+                double displayValue = Math.round(totalValue * 100.00) / 100.00;
+                if (holding.getSharesOwned() == 0) {
+                    profit = Math.round((holding.getClosevalue() - investment) * 100.00) / 100.00;
+                    // System.out.println(holding.getClosevalue());
+
+                } else {
+                    profit = Math.round((displayValue - investment) * 100.00) / 100.00;
+                }
+
+
+                // put stockParts into HashMap
+                row.put("nameString", nameString);
+                row.put("symbol", symbol);
+                row.put("shareNum", String.valueOf(shareNum));
+                row.put("price", String.valueOf(displayPrice));
+                row.put("totalValue", String.valueOf(displayValue));
+                row.put("totalInvestment", String.valueOf(investment));
+                row.put("ProfitLoss", String.valueOf(profit));
+
+                stockParts.put(symbol, row);
             }
-            double profit;
-            // get price
-            double price = Double.parseDouble(myLookup.getQuote().getPrice().toString());
-
-            // get totalValue
-            double totalValue = price * shareNum;
-
-            // use Stock.toString() to concatenate name and symbol
-            String nameString = myLookup.toString();
-
-            // round price, total value to display 2 decimals
-            double displayPrice = Math.round(price * 100.00) / 100.00;
-            double displayValue = Math.round(totalValue * 100.00) / 100.00;
-            if (holding.getSharesOwned() == 0) {
-                profit = Math.round((holding.getClosevalue() - investment) * 100.00) / 100.00;
-                // System.out.println(holding.getClosevalue());
-
-            } else {
-                profit = Math.round((displayValue - investment) * 100.00) / 100.00;
-            }
-
-
-            // put stockParts into HashMap
-            row.put("nameString", nameString);
-            row.put("symbol", symbol);
-            row.put("shareNum", String.valueOf(shareNum));
-            row.put("price", String.valueOf(displayPrice));
-            row.put("totalValue", String.valueOf(displayValue));
-            row.put("totalInvestment", String.valueOf(investment));
-            row.put("ProfitLoss", String.valueOf(profit));
-
-            stockParts.put(symbol, row);
         }
 
         // get user cash and add to array

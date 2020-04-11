@@ -129,9 +129,7 @@ public class StockHolding extends AbstractEntity {
         StockTransaction transaction = new StockTransaction(this, numberOfShares, StockTransaction.TransactionType.BUY);
         this.transactions.add(transaction);
         yahoofinance.Stock mystock = Stock.lookupStock(symbol);
-        Double stockPrice = Double.parseDouble(mystock.getQuote().getPrice().toString());
 
-        this.setInvestment(this.getInvestment()+stockPrice*numberOfShares);
 
 
       // double  sum=0;
@@ -216,7 +214,7 @@ public class StockHolding extends AbstractEntity {
         }
         Double newCash = cash - totalPrice;
         user.setCash(newCash);
-        // holding.setInvestment(holding.getInvestment()+totalPrice);
+        holding.setInvestment(holding.getInvestment()+totalPrice);
 
 
 
@@ -233,7 +231,7 @@ public class StockHolding extends AbstractEntity {
          * @return the given holding for symbol and user, or null if user has never owned any of symbol's stock
          * @throws IllegalArgumentException
          */
-        public static StockHolding updateaverageprice (User user, String symbol, List<StockTransaction> transactions) throws IOException {
+        public static void updateaverageprice (User user, String symbol, List<StockTransaction> transactions) throws IOException {
 
             symbol = symbol.toUpperCase();
 
@@ -261,7 +259,7 @@ public class StockHolding extends AbstractEntity {
                double price= Double.parseDouble(stock.getQuote().getPrice().toString());
         holding.setAveragePrice(price);
     }
-return holding;
+
 }
 
 
@@ -290,7 +288,7 @@ return holding;
           //  System.out.println(cashfromselling);
             user.setCash(user.getCash() + cashfromselling);
             System.out.println("Noul investment e "+ (holding.getInvestment()-(holding.getAveragePrice()*numberOfShares)));
-            holding.setInvestment(holding.getInvestment()-(holding.getAveragePrice()*numberOfShares));
+            holding.setInvestment(holding.getInvestment()-cashfromselling);
 
             return holding;
         }
