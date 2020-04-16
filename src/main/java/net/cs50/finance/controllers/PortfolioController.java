@@ -174,6 +174,8 @@ public class PortfolioController extends AbstractFinanceController {
         model.addAttribute("stockParts", stockParts);
         model.addAttribute("cash", cashString);
 
+        totalpl=Math.round(totalpl * 100.00) / 100.00;
+
         model.addAttribute("title", "Portfolio");
         model.addAttribute("portfolioNavClass", "active");
         model.addAttribute("totalpl",String.valueOf(totalpl));

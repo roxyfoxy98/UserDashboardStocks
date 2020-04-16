@@ -1,10 +1,9 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.springframework.org/schema/data/jaxb">
 
 <head th:replace="template :: head">
 </head>
 <body>
-<div id="react"></div>
-
 
 <div id="top" th:fragment="masthead">
 
@@ -49,7 +48,7 @@
                     <th>Company</th>
                     <th>Time</th>
                     <th>Type</th>
-                    <th>Stock Number</th>
+                    <th>Stock Quantity</th>
                     <th>Stock Price</th>
                 </tr>
                 </thead>
@@ -78,7 +77,6 @@
     </div>
 </div>
 
-<script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>
 

@@ -3,7 +3,7 @@
 
 <head >
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="5" />
+    <meta http-equiv="refresh" content="20" />
     <title th:text="*{title}?: 'C$50 Finance'"></title>
 
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}" />
@@ -23,7 +23,8 @@
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js}"></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js}"></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js}"></script>
-    <script class="cssdeck" th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js}"></script>
+    <script th:src="@{http://momentjs.com/downloads/moment.min.js}"></script>
+    <script th:src="@{http://momentjs.com/downloads/moment-timezone-with-data.min.js}"></script>
 
     <style>
         td {text-align: left;}
@@ -43,14 +44,15 @@
         <div id="menu-wrapper">
             <div id="menu" >
                 <a href="#" id ="logo-equi" ><img src="https://images.squarespace-cdn.com/content/v1/59631fbeb11be177732699d2/1553490176845-E64IBOEJ1JPZCTHE76QB/ke17ZwdGBToddI8pDm48kAOYMsDkvyX4i0bKAUMDAeZZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PI3W1u7wZQKiQkKRPn21LfOGOLHIQ1jNl7MagpwTZ58ME/Equix.png" width = "100" height = "35"/></a>
-                <ul>
+<ul>
                     <li><a href="/portfolio">Portfolio</a></li>
                     <li><a href="/quote">Quote</a></li>
                     <li><a href="/buy">Buy</a></li>
                     <li><a href="/sell">Sell</a></li>
                     <li><a href="/transactions">Transactions</a> </li>
                     <li><a href="/logout">Log Out</a> </li>
-                </ul>
+                    <p id="marketstatus">NASDAQ is :  <span id="status">____</span></p>
+              </ul>
             </div>
 
         </div>
@@ -67,6 +69,8 @@
 <div class="portfolionotice">
     <p id="cashramas">Remaining cash: <span  id="cashtext" th:text="${cash}"></span></p>
     <p id="totalpl">Current Profit/Loss: <span id="negativeorpositive"  th:text="${totalpl}"></span></p>
+
+
 
     <div id="profitorloss">
         <img id="arrow" src="/img/Green_Arrow_Up_Darker.svg" width="25px" height="25px"/>
