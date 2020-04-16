@@ -1,10 +1,7 @@
 package net.cs50.finance.controllers;
 
 import net.cs50.finance.WebApplicationConfig;
-import net.cs50.finance.models.Stock;
-import net.cs50.finance.models.StockHolding;
-import net.cs50.finance.models.StockLookupException;
-import net.cs50.finance.models.User;
+import net.cs50.finance.models.*;
 import net.cs50.finance.models.dao.HibernateUtil;
 import net.cs50.finance.models.dao.StockHoldingDao;
 import org.hibernate.Hibernate;
@@ -29,6 +26,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.hibernate.jpa.AvailableSettings.PERSISTENCE_UNIT_NAME;
+import static org.hibernate.jpa.AvailableSettings.TRANSACTION_TYPE;
 
 /**
  * Created by Chris Bay on 5/17/15.
@@ -45,6 +43,53 @@ public class PortfolioController extends AbstractFinanceController {
     SessionFactory sessionFactory;
 
 
+    @RequestMapping(value = "/transactions")
+    public String transactionhistory(HttpServletRequest request, Model model) {
+
+        // Implement portfolio display
+        // get session id
+        yahoofinance.Stock myLookup = null;
+
+        User user = getUserFromSession(request);
+
+        // get portfolio
+        Map<String, StockHolding> portfolio = user.getPortfolio();
+
+        // make storage for individual parts of row
+        HashMap<String, HashMap<String, String>> stockParts = new HashMap<String, HashMap<String, String>>();
+        double totalpl = 0;
+        // Iterate over portfolio
+        for (StockHolding holding : portfolio.values()) {
+            List<StockTransaction> listhistory = holding.getTransactions();
+            // make a hashmap to store the row
+            for (int i = 0; i < listhistory.size(); i++) {
+                HashMap<String, String> row = new HashMap<String, String>();
+
+                int transactionid= listhistory.get(i).getUid();
+                // put stockParts into HashMap
+                row.put("transactionid", String.valueOf(listhistory.get(i).getUid()));
+                row.put("symbol", String.valueOf(listhistory.get(i).getSymbol()));
+                row.put("shareNum", String.valueOf(listhistory.get(i).getShares()));
+                row.put("price", String.valueOf(listhistory.get(i).getPrice()));
+                if (listhistory.get(i).getType().equals(StockTransaction.TransactionType.BUY))
+                {  row.put("type","BUY");
+
+                }
+                else row.put("type", "SELL");
+                row.put("transactiontime", String.valueOf(listhistory.get(i).getTransationTime()));
+
+                stockParts.put(String.valueOf(transactionid), row);
+            }
+        }
+
+
+
+        // pass array to template
+        model.addAttribute("stockParts", stockParts);
+
+        return "transactions";
+    }
+
     @RequestMapping(value = "/portfolio")
     public String portfolio(HttpServletRequest request, Model model) {
 
@@ -59,7 +104,7 @@ public class PortfolioController extends AbstractFinanceController {
 
         // make storage for individual parts of row
         HashMap<String, HashMap<String, String>> stockParts = new HashMap<String, HashMap<String, String>>();
-
+        double totalpl=0;
         // Iterate over portfolio
         for (StockHolding holding : portfolio.values()) {
             if (holding.getSharesOwned() != 0) {
@@ -96,10 +141,12 @@ public class PortfolioController extends AbstractFinanceController {
                 double displayValue = Math.round(totalValue * 100.00) / 100.00;
                 if (holding.getSharesOwned() == 0) {
                     profit = Math.round((holding.getClosevalue() - investment) * 100.00) / 100.00;
+                    totalpl=totalpl+profit;
                     // System.out.println(holding.getClosevalue());
 
                 } else {
                     profit = Math.round((displayValue - investment) * 100.00) / 100.00;
+                    totalpl=totalpl+profit;
                 }
 
 
@@ -129,6 +176,7 @@ public class PortfolioController extends AbstractFinanceController {
 
         model.addAttribute("title", "Portfolio");
         model.addAttribute("portfolioNavClass", "active");
+        model.addAttribute("totalpl",String.valueOf(totalpl));
 
         return "portfolio";
     }
@@ -163,6 +211,8 @@ public class PortfolioController extends AbstractFinanceController {
         // make storage for individual parts of row
         HashMap<String, HashMap<String, String>> stockParts = new HashMap<String, HashMap<String, String>>();
 
+
+        double totalpl=0;
         // Iterate over portfolio
         for (StockHolding holding : portfolio.values()) {
             if (holding.getSharesOwned() != 0) {
@@ -200,9 +250,11 @@ public class PortfolioController extends AbstractFinanceController {
                 if (holding.getSharesOwned() == 0) {
                     profit = Math.round((holding.getClosevalue() - investment) * 100.00) / 100.00;
                     // System.out.println(holding.getClosevalue());
+                    totalpl=totalpl+profit;
 
                 } else {
                     profit = Math.round((displayValue - investment) * 100.00) / 100.00;
+                    totalpl=totalpl+profit;
                 }
 
 
@@ -233,6 +285,7 @@ public class PortfolioController extends AbstractFinanceController {
 
         model.addAttribute("title", "Portfolio");
         model.addAttribute("portfolioNavClass", "active");
+        model.addAttribute("totalpl",String.valueOf(totalpl));
 
         return "portfolio";
     }

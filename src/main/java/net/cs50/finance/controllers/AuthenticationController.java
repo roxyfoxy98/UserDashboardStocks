@@ -21,6 +21,28 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class AuthenticationController extends AbstractFinanceController {
 
+
+
+    String username;
+
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index1(Model model){
+
+        System.out.println(username);
+        model.addAttribute("username", username);
+
+        return "index";
+    }
+   @RequestMapping(value = "/index", method = RequestMethod.POST)
+   public String registeruser(Model model) {
+    System.out.println(username);
+    model.addAttribute("username", username);
+
+        return "index";
+    }
+
+
+
     @RequestMapping(value = "/")
     public String index(){
         return "redirect:portfolio";
@@ -47,7 +69,8 @@ public class AuthenticationController extends AbstractFinanceController {
         User newUser = new User(userName, password);
         userDao.save(newUser);
 
-        return "index";
+        username=userName;
+        return "redirect:index";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

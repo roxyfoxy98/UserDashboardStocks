@@ -134,8 +134,7 @@ public class StockController extends AbstractFinanceController {
             // save user with UserDao
             userDao.save(user);
 
-            //List<StockTransaction> transactions = stockTransactionDao.findBySymbolAndUserId(symbol.toUpperCase(), user.getUid());
-            //StockHolding.updateaverageprice(user, symbol, transactions);
+
 
 
             model.addAttribute("title", "Buy");
@@ -172,7 +171,6 @@ if (holdingtest==null)
 {
     throw new Exception("Please check the symbol to be suitable for your portfolio");
 }
-        StockHolding holding = null;
 
         try {
             Integer.parseInt(numberOfShares);
@@ -180,32 +178,20 @@ if (holdingtest==null)
             throw new Exception ("Please insert a NUMBER of shares");
         };
 
+        StockHolding holding=null;
+
         try {
             holding = StockHolding.sellShares(user, symbol, Integer.parseInt(numberOfShares));
         } catch (Exception ex2) { throw new Exception("Please insert a valid symbol for the portfolio");
 
 
         }
-      /*  try {
-            holding = StockHolding.sellShares(user, symbol, Integer.parseInt(numberOfShares));
-        } catch (StockLookupException | IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
+
 
 
         stockHoldingDao.save(holding);
         userDao.save(user);
 
-        holdingtest=stockHoldingDao.findBySymbolAndOwnerId(symbol,id);
-
-        int numberOfRemainingShares=holdingtest.getSharesOwned();
-        if (numberOfRemainingShares==0) stockHoldingDao.delete(holdingtest);
-
-        stockHoldingDao.save(holding);
-        userDao.save(user);
 
 
         model.addAttribute("title", "Sell");

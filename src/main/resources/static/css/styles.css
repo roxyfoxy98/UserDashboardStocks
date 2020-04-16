@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
 /**
  * styles.css
  *
@@ -7,21 +9,89 @@
  * Global CSS.
  */
 
-.container
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background: rgba(255,255,247,0.88);
+    font-family: 'Raleway', sans-serif;
+    font-size: 11pt;
+    font-weight: 400;
+    color: #363636;
+}
+
+
+#top
 {
+    padding-bottom: 70px;
+}
+
+.container {
     /* center contents */
-    margin-left: auto;
+   margin-left: auto;
     margin-right: auto;
     text-align: center;
+    width: 1200px;
+    margin: 0px auto;
+
+
 }
+
+
+#menu-wrapper
+{
+    background: #4ecb9c;
+}
+
+#menu {
+    overflow: hidden;
+    height: 100px;
+}
+
+#menu ul {
+    margin: 0;
+    padding: 0px 0px 0px 0px;
+    list-style: none;
+    line-height: normal;
+    text-align: center;
+}
+
+#menu li {
+    display: inline-block;
+}
+
+#menu a {
+    display: block;
+    letter-spacing: 1px;
+    padding: 0px 40px;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.80em;
+    line-height: 100px;
+    border: none;
+    color: #FFF;
+}
+
+#menu a:hover, #menu .current_page_item a {
+    background: #1abc9c;
+}
+
+
+
+
+
 
 #middle .form-control
 {
     /* center form controls */
-    display: inline-block;
+   display: inline-block;
 
     /* override Bootstrap's 100% width for form controls */
-    width: auto;
+    margin: auto;
 }
 
 #bottom
@@ -34,176 +104,568 @@
 }
 
 
+table{
+    padding-top: 40px;
+    width:100%;
+    table-layout: fixed;
+}
+.tbl-header{
+    background-color: rgba(255,255,255,0.3);
+}
+.tbl-content{
+    height:300px;
+    overflow-x:auto;
+    margin-top: 0px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+th{
+    padding: 20px 15px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+    color: rgba(4,5,80,0.88);
+    text-transform: uppercase;
+}
+td{
+    padding: 15px;
+    text-align: left;
+    vertical-align:middle;
+    font-weight: 330;
+    font-size: 13px;
+    color: rgba(4,5,80,0.88);
+    border-bottom: solid 1px rgba(50, 51, 51, 0.9);
+}
 
+
+#middle
+{
+    background: rgba(0,0,0,.04);
+    margin: auto;
+    width:100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
 #chart
 {
      width: 100%;
      height: 500px;
+    background: #f6f6f6
  }
 
 
-.table th{
-    text-align: center
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
 
-.table td {
-    text-align: center
+body, html {
+    height: 100%;
 }
 
-.table {
-    margin-top: 0.75rem;
+/*---------------------------------------------*/
+a {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0px;
+    transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
 }
 
-.container {
-    width: 40%
+a:focus {
+    outline: none !important;
 }
 
-#login_signup {
-    display: flex;
-    justify-content: space-around
-}
-
-#search_box_view {
-    margin-top: 2rem;
-}
-
-.view_list li span {
-    font-weight: 600
-}
-
-#chart {
-    margin: 0 auto;
-    width: 120%;
-    transform: translateX(-12%) translateY(-1rem)
-}
-
-#view_title {
-    padding-top: 2rem;
-}
-
-#github {
-    display: flex;
-}
-
-#currPrice {
-    padding: 0px 5px;
-    border: 1px black solid;
-    background: black;
-    color: white;
-    font-weight: 300;
-}
-
-#github img {
-    padding-right: 0.4rem;
-}
-
-.view_list {
-    width: 100%;
-    margin: 0 auto;
-    font-family: Arial, Helvetica, sans-serif
-}
-
-.view_list li {
-    display: flex;
-    text-align: left;
-    justify-content: space-between
-}
-
-#arrow {
-    vertical-align: baseline;
-    padding-left: 0.5rem;
-}
-
-#status_label {
-    padding-right: 0.5rem;
+a:hover {
     text-decoration: none;
-    color: black;
+    color: #57b846;
 }
 
-.react-autosuggest__container{
-    box-shadow: 0px 0px 12px 1px rgba(10,10,10,.1);
+/*---------------------------------------------*/
+h1,h2,h3,h4,h5,h6 {
+    margin: 0px;
 }
 
-.react-autosuggest__input {
-    background: #ffffff;
+p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0px;
+}
+
+ul, li {
+    margin: 0px;
+    list-style-type: none;
+}
+
+
+/*---------------------------------------------*/
+input {
+    outline: none;
+    border: none;
+}
+
+textarea {
+    outline: none;
+    border: none;
+}
+
+textarea:focus, input:focus {
+    border-color: transparent !important;
+}
+
+input:focus::-webkit-input-placeholder { color:transparent; }
+input:focus:-moz-placeholder { color:transparent; }
+input:focus::-moz-placeholder { color:transparent; }
+input:focus:-ms-input-placeholder { color:transparent; }
+
+textarea:focus::-webkit-input-placeholder { color:transparent; }
+textarea:focus:-moz-placeholder { color:transparent; }
+textarea:focus::-moz-placeholder { color:transparent; }
+textarea:focus:-ms-input-placeholder { color:transparent; }
+
+input::-webkit-input-placeholder { color: #999999; }
+input:-moz-placeholder { color: #999999; }
+input::-moz-placeholder { color: #999999; }
+input:-ms-input-placeholder { color: #999999; }
+
+textarea::-webkit-input-placeholder { color: #999999; }
+textarea:-moz-placeholder { color: #999999; }
+textarea::-moz-placeholder { color: #999999; }
+textarea:-ms-input-placeholder { color: #999999; }
+
+/*---------------------------------------------*/
+button {
+    outline: none !important;
+    border: none;
+    background: transparent;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+iframe {
+    border: none !important;
+}
+
+
+/*//////////////////////////////////////////////////////////////////
+[ Utility ]*/
+.txt1 {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #999999;
+}
+
+.txt2 {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666666;
+}
+
+
+/*//////////////////////////////////////////////////////////////////
+[ login ]*/
+
+.limiter {
     width: 100%;
-    line-height: 2rem;
-    border: 1px #dbdbdb solid;
-    padding-left: 0.6rem;
-    font-size: 1rem;
+    margin: 0 auto;
+}
 
+.container-login100 {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background: #9053c7;
+    background: -webkit-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -o-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: -moz-linear-gradient(-135deg, #c850c0, #4158d0);
+    background: linear-gradient(-135deg, #2B2C4E, #B1B1B2);
+}
+
+.wrap-login100 {
+    width: 450px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+margin: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 70px 33px 33px 30px;
+}
+
+/*------------------------------------------------------------------
+[  ]*/
+
+
+
+/*------------------------------------------------------------------
+[  ]*/
+.login100-form {
+    width: 350px;
+    margin: auto;
+}
+
+.login100-form-title {
+    font-size: 24px;
+    color: #333333;
+    line-height: 1.2;
+    text-align: center;
+
+    width: 100%;
+    display: block;
+    padding-bottom: 54px;
 }
 
 
-
-
-
-#close {
-    border: 1px red solid;
-    color: red;
-    padding: 0.5rem;
-    font-weight: 600
+/*---------------------------------------------*/
+.wrap-input100 {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 10px;
 }
 
-#open {
-    border: 1px green solid;
-    color: green;
-    padding: 0.5rem;
-    font-weight: 600
+.input100 {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666666;
+
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 30px 0 68px;
 }
 
-#loginactive, #signupactive {
-    text-decoration: underline;
-    text-underline-position: under;
+
+/*------------------------------------------------------------------
+[ Focus ]*/
+.focus-input100 {
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 0px 0px;
+    color: rgba(87,184,70, 0.8);
 }
 
-#login {
-    margin-top: 10%;
-    width: 30%;
+.input100:focus + .focus-input100 {
+    -webkit-animation: anim-shadow 0.5s ease-in-out forwards;
+    animation: anim-shadow 0.5s ease-in-out forwards;
 }
 
-#signup {
-    margin-top: 10%;
-    width: 30%;
+@-webkit-keyframes anim-shadow {
+    to {
+        box-shadow: 0px 0px 70px 25px;
+        opacity: 0;
+    }
 }
 
-#usericon {
-    vertical-align: middle;
+@keyframes anim-shadow {
+    to {
+        box-shadow: 0px 0px 70px 25px;
+        opacity: 0;
+    }
 }
 
-#name {
-    padding-left: 0.75rem;
+.symbol-input100 {
+    font-size: 15px;
+
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 35px;
+    pointer-events: none;
+    color: #666666;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
 }
 
-#sellGroup {
+.input100:focus + .focus-input100 + .symbol-input100 {
+    color: #57b846;
+    padding-left: 28px;
+}
+
+/*------------------------------------------------------------------
+[ Button ]*/
+.container-login100-form-btn {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.login100-form-btn {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #fff;
+    text-transform: uppercase;
+
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background: #57b846;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
     display: flex;
     justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
 }
 
-#sellGroup input {
-    width: 50%;
+.login100-form-btn:hover {
+    background: #333333;
+}
+
+
+
+/*------------------------------------------------------------------
+[ Responsive ]*/
+
+
+
+@media (max-width: 992px) {
+    .wrap-login100 {
+        padding: 177px 90px 33px 85px;
+    }
+
+    .login100-pic {
+        width: 35%;
+    }
+
+    .login100-form {
+        width: 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrap-login100 {
+        padding: 100px 80px 33px 80px;
+    }
+
+    .login100-pic {
+        display: none;
+    }
+
+    .login100-form {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .wrap-login100 {
+        padding: 100px 15px 33px 15px;
+    }
+}
+
+
+/*------------------------------------------------------------------
+[ Alert validate ]*/
+
+.validate-input {
+    position: relative;
+}
+
+.alert-validate::before {
+    content: attr(data-validate);
+    position: absolute;
+    max-width: 70%;
+    background-color: white;
+    border: 1px solid #c80000;
+    border-radius: 13px;
+    padding: 4px 25px 4px 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 8px;
+    pointer-events: none;
+    color: #c80000;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: left;
+
+    visibility: hidden;
+    opacity: 0;
+
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    -moz-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+}
+
+.alert-validate::after {
+    content: "\f06a";
+    display: block;
+    position: absolute;
+    color: #c80000;
+    font-size: 15px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 13px;
+}
+
+.alert-validate:hover:before {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 992px) {
+    .alert-validate::before {
+        visibility: visible;
+        opacity: 1;
+    }
+}
+
+
+
+h1 {
+    font-family: "Raleway", sans-serif;
+    font-weight: normal;
+    font-size: 35px;
+    text-align: center;
+     margin: auto;
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    padding-top: 20px;
+    color: #040550;
+    letter-spacing: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+
+}
+
+
+#cashramas
+{
     float: right;
+    padding-top: 20px;
+    padding-right: 20px;
+    font-family: "Raleway", sans-serif;
+    color: #040550;
+    letter-spacing: 1px;
+
 }
 
-#profit {
-    color: green;
+#profitorloss
+{
+    float: left;
+    padding-top: 30px;
+    padding-left: 20px;
 }
 
-#loss {
-    color: red;
+#totalpl
+{
+    padding-left: 20px;
+    padding-top: 20px;
+    letter-spacing: 1px;
+    float: left;
+    font-family: "Raleway", sans-serif;
+    color: #040550;
+
 }
 
-#nav {
-    width: 50%;
-    display: flex;
-    justify-content: space-around;
+
+
+.portfolionotice
+{
+    padding-bottom: 30px;
+    background: linear-gradient(90deg, rgba(227,247,35,1) 29%, rgba(16,200,162,0.8869922969187675) 100%);
+    margin: auto;
 }
 
-.level {
-    padding: 1.75rem 0px;
+.totalpl
+{
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    letter-spacing: 1px;
+    float: left;
+    font-family: "Raleway", sans-serif;
+    color: #040550;
 }
-#clock {
-    margin-top: 0.9px;
-    color: black;
-    font-size: 16px;
+
+
+#negativeorpositive
+{
+    font-size: 30px;
+}
+
+
+#cashtext
+{
+    font-size: 30px;
+}
+.negative { color : red; }
+.positive { color : green; }
+
+
+#logo-equi
+{
+
+    float: left;
+
+}
+
+#welcomep
+{
+   margin: auto;
+    letter-spacing: 1px;
+    font-family: "Raleway", sans-serif;
+    color: #040550;
 }

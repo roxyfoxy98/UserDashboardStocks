@@ -102,7 +102,7 @@ public class StockHolding extends AbstractEntity {
         this.sharesOwned = sharesOwned;
     }
 
-    @OneToMany(mappedBy = "stockHolding", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "stockHolding", cascade = PERSIST)
     public List<StockTransaction> getTransactions() {
         return transactions;
     }
@@ -128,12 +128,6 @@ public class StockHolding extends AbstractEntity {
 
         StockTransaction transaction = new StockTransaction(this, numberOfShares, StockTransaction.TransactionType.BUY);
         this.transactions.add(transaction);
-        yahoofinance.Stock mystock = Stock.lookupStock(symbol);
-
-
-
-      // double  sum=0;
-
 
 
     }
@@ -154,21 +148,24 @@ public class StockHolding extends AbstractEntity {
      * @throws StockLookupException     if unable to lookup stock info
      */
     private void sellShares(int numberOfShares) throws Exception {
-        yahoofinance.Stock stock= YahooFinance.get(symbol);
 
-        if (numberOfShares > sharesOwned) {
-            throw new IllegalArgumentException("Number to sell exceeds shares owned for stock" + symbol);
-        }
+
+            if (numberOfShares > sharesOwned) {
+                throw new IllegalArgumentException("Number to sell exceeds shares owned for stock" + symbol);
+            }
+
+            setSharesOwned(sharesOwned - numberOfShares);
+
+            StockTransaction transaction = new StockTransaction(this, numberOfShares, StockTransaction.TransactionType.SELL);
+            this.transactions.add(transaction);
+
         if (sharesOwned==numberOfShares)
-        {
+        {           yahoofinance.Stock stock= YahooFinance.get(symbol);
+
             this.setClosevalue(numberOfShares*(Double.parseDouble(stock.getQuote().getPrice().toString())));
         }
-        setSharesOwned(sharesOwned - numberOfShares);
-        StockTransaction transaction = new StockTransaction(this, numberOfShares, StockTransaction.TransactionType.SELL);
-        this.transactions.add(transaction);
+        }
 
-
-    }
 
     /**
      * Static method for buying shares of a StockHolding. Creates a new holding if the user did not already have one,
@@ -192,10 +189,9 @@ public class StockHolding extends AbstractEntity {
         if (!userPortfolio.containsKey(symbol)) {
             holding = new StockHolding(symbol, user.getUid());
             user.addHolding(holding);
-            holding = userPortfolio.get(symbol);
-        } else {// Conduct buy
-            holding = userPortfolio.get(symbol);
         }
+
+        holding = userPortfolio.get(symbol);
         holding.buyShares(numberOfShares);
 
         // update user cash on buy
@@ -282,10 +278,7 @@ public class StockHolding extends AbstractEntity {
             holding.sellShares(numberOfShares);
             yahoofinance.Stock stock = YahooFinance.get(symbol);
 
-            holding = userPortfolio.get(symbol);
-
             double cashfromselling = numberOfShares * (Double.parseDouble(stock.getQuote().getPrice().toString()));
-          //  System.out.println(cashfromselling);
             user.setCash(user.getCash() + cashfromselling);
             System.out.println("Noul investment e "+ (holding.getInvestment()-(holding.getAveragePrice()*numberOfShares)));
             holding.setInvestment(holding.getInvestment()-cashfromselling);

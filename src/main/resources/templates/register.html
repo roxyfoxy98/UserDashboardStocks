@@ -7,31 +7,59 @@
 <body>
 <div id="react"></div>
 
+
+<div id="top" th:include="template :: masthead"></div>
+
 <div class="container">
 
-    <div id="top" th:include="template :: masthead"></div>
 
     <div id="middle">
+        <div class="wrap-login100">
 
-        <form method="post" action="/register">
-            <fieldset>
-                <div class="form-group">
-                    <input autofocus="true" class="form-control" name="userName" placeholder="Username" type="text"/>
+            <form  method="post" action="/register" class="login100-form validate-form">
+					<span class="login100-form-title">
+						Register
+					</span>
+
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is required!">
+                    <input class="input100" type="text" name="userName" placeholder="Username"/>
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-envelope" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="form-group">
-                    <input class="form-control" name="password" placeholder="Password" type="password"/>
+
+                <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                    <input class="input100" type="password" name="password" placeholder="Password"/>
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="form-group">
-                    <input class="form-control" name="confirmPassword" placeholder="Confirm Password" type="password"/>
+
+                <div class="wrap-input100 validate-input" data-validate = "Password is required">
+                    <input class="input100" type="password" name="confirmPassword" placeholder="Confirm Password"/>
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">Register</button>
+
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Register
+                    </button>
                 </div>
-            </fieldset>
-        </form>
-        <div>
-            Already have an account? <a href="/login">Log in</a>
+
+                <div class="text-center p-t-12"     style="margin-top: 5px;">
+						<span class="txt1">
+							 Already have an account? <a href="/login">Log in</a>
+						</span>
+                </div>
+
+            </form>
         </div>
+
     </div>
 
     <div th:replace="template :: footer"></div>

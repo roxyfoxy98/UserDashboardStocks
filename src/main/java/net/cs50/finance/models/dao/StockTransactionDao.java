@@ -17,7 +17,6 @@ public interface StockTransactionDao extends CrudRepository<StockTransaction, In
 
 
 
-    List<StockTransaction> findBySymbolAndUserId(String symbol, int uid);
 
     @Override
     StockTransaction findOne(Integer integer);

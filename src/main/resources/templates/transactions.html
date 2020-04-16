@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb">
+
+<head th:replace="template :: head">
+</head>
+<body>
+<div id="react"></div>
+
+
+<div id="top" th:fragment="masthead">
+
+    <div id="wrapper">
+        <div id="menu-wrapper">
+            <div id="menu" >
+                <a href="#" id ="logo-equi" ><img src="https://images.squarespace-cdn.com/content/v1/59631fbeb11be177732699d2/1553490176845-E64IBOEJ1JPZCTHE76QB/ke17ZwdGBToddI8pDm48kAOYMsDkvyX4i0bKAUMDAeZZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PI3W1u7wZQKiQkKRPn21LfOGOLHIQ1jNl7MagpwTZ58ME/Equix.png" width = "100" height = "35"/></a>
+                <ul>
+                    <li><a href="/portfolio">Portfolio</a></li>
+                    <li><a href="/quote">Quote</a></li>
+                    <li><a href="/buy">Buy</a></li>
+                    <li><a href="/sell">Sell</a></li>
+                    <li><a href="/transactions">Transactions</a> </li>
+                    <li><a href="/logout">Log Out</a> </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+
+    <div id="middle">
+
+        <!-- Display portfolio -->
+        <div class="portfolionotice">
+
+
+            <h1 class="gradient-text">Your transaction history</h1>
+
+
+        </div>
+
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Company</th>
+                    <th>Time</th>
+                    <th>Type</th>
+                    <th>Stock Number</th>
+                    <th>Stock Price</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tbl-content">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+
+                <!--data iteration here-->
+                <tr th:each="stockPart:${stockParts}">
+                    <td th:text="${stockPart.value.transactionid}"></td>
+                    <td th:text="${stockPart.value.symbol}"></td>
+                    <td th:text="${stockPart.value.transactiontime}"></td>
+                    <td th:text="${stockPart.value.type}"></td>
+                    <td th:text="${stockPart.value.shareNum}"></td>
+                    <td th:text="${stockPart.value.price}"></td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div th:replace="template :: footer"></div>
+    </div>
+</div>
+
+<script th:src="@{/js/scripts.js}"></script>
+</body>
+</html>
+
+<!---->

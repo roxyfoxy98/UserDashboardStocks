@@ -38,7 +38,8 @@ public class User extends AbstractEntity {
     }
 
     // empty constructor so Spring can do its magic
-    public User() {}
+    public User() {
+    }
 
     @NotNull
     @Column(name = "username", unique = true, nullable = false)
@@ -46,7 +47,7 @@ public class User extends AbstractEntity {
         return userName;
     }
 
-    protected void setUserName(String userName){
+    protected void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -80,11 +81,15 @@ public class User extends AbstractEntity {
 
 
     @Column(name = "cash")
-    public double getCash() { return cash; }
+    public double getCash() {
+        return cash;
+    }
 
-    protected void setCash(double cash) { this.cash = cash; }
+    protected void setCash(double cash) {
+        this.cash = cash;
+    }
 
-    void addHolding (StockHolding holding) throws IllegalArgumentException {
+    void addHolding(StockHolding holding) throws IllegalArgumentException {
 
         // Ensure a holding for the symbol doesn't already exist
         if (portfolio.containsKey(holding.getSymbol())) {
@@ -95,12 +100,4 @@ public class User extends AbstractEntity {
         portfolio.put(holding.getSymbol(), holding);
     }
 
-  public   void deleteholding (StockHolding holding)
-    {
-        if (portfolio.containsKey(holding.getSymbol()))
-        {
-            portfolio.replace(holding.getSymbol(),null);
-            portfolio.remove(holding.getSymbol());
-        }
-    }
 }

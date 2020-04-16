@@ -67,14 +67,35 @@
     /*]]>*/
 </script>
 
+<div id="top" th:fragment="masthead">
+
+
+
+    <div id="wrapper">
+        <div id="menu-wrapper">
+            <div id="menu" >
+                <a href="#" id ="logo-equi" ><img src="https://images.squarespace-cdn.com/content/v1/59631fbeb11be177732699d2/1553490176845-E64IBOEJ1JPZCTHE76QB/ke17ZwdGBToddI8pDm48kAOYMsDkvyX4i0bKAUMDAeZZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PI3W1u7wZQKiQkKRPn21LfOGOLHIQ1jNl7MagpwTZ58ME/Equix.png" width = "100" height = "35"/></a>
+                <ul>
+                    <li><a href="/portfolio">Portfolio</a></li>
+                    <li><a href="/quote">Quote</a></li>
+                    <li><a href="/buy">Buy</a></li>
+                    <li><a href="/sell">Sell</a></li>
+                    <li><a href="/transactions">Transactions</a> </li>
+                    <li><a href="/logout">Log Out</a> </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <div class="container">
 
-    <div id="top" th:include="template :: masthead"></div>
 
     <div id="middle">
 
-        <p>The current price of <b th:text="${stock_desc}">SYMBOL (NAME)</b> is <b th:text="${stock_price}">PRICE</b>.</p>
+        <p class="totalpl">The current price of <b th:text="${stock_desc}">SYMBOL (NAME)</b> is <b th:text="${stock_price}">PRICE</b>.</p>
 
         <div th:replace="quote_form :: form"></div>
 

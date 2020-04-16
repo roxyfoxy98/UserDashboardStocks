@@ -1,67 +1,83 @@
+(function ($) {
+    "use strict";
 
-/*<![CDATA[*/
 
-//var theList = [[${history}]]
-//for (i = 0; i < theList.length; i++) {
-  //  doSomething(theList[i]);
+    /*==================================================================
+    [ Validate ]*/
+    var input = $('.validate-input .input100');
 
-    window.onload = function () {
+    $('.validate-form').on('submit',function(){
+        var check = true;
 
-        var dataPoints = [];
-
-        var chart = new CanvasJS.Chart("chartContainer", {
-            animationEnabled: true,
-            theme: "light2", // "light1", "light2", "dark1", "dark2"
-            exportEnabled: true,
-            title: {
-                text: "Netflix Stock Price in 2016"
-            },
-            subtitles: [{
-                text: "Weekly Averages"
-            }],
-            axisX: {
-                interval: 1,
-                valueFormatString: "MMM"
-            },
-            axisY: {
-                includeZero: false,
-                prefix: "$",
-                title: "Price"
-            },
-            toolTip: {
-                content: "Date: {x}<br /><strong>Price:</strong><br />Open: {y[0]}, Close: {y[3]}<br />High: {y[1]}, Low: {y[2]}"
-            },
-            data: [{
-                type: "candlestick",
-                yValueFormatString: "$##0.00",
-                dataPoints: dataPoints
-            }]
-        });
-
-        $.get("https://canvasjs.com/data/gallery/javascript/netflix-stock-price.csv", getDataPointsFromCSV);
-
-        function getDataPointsFromCSV(csv) {
-            var csvLines = points = [];
-            csvLines = csv.split(/[\r?\n|\r|\n]+/);
-            for (var i = 0; i < csvLines.length; i++) {
-                if (csvLines[i].length > 0) {
-                    points = csvLines[i].split(",");
-                    dataPoints.push({
-                        x: new Date(
-                            parseInt(points[0].split("-")[0]),
-                            parseInt(points[0].split("-")[1]),
-                            parseInt(points[0].split("-")[2])
-                        ),
-                        y: [
-                            parseFloat(points[1]),
-                            parseFloat(points[2]),
-                            parseFloat(points[3]),
-                            parseFloat(points[4])
-                        ]
-                    });
-                }
+        for(var i=0; i<input.length; i++) {
+            if(validate(input[i]) == false){
+                showValidate(input[i]);
+                check=false;
             }
-            chart.render();
         }
 
+        return check;
+    });
+
+
+    $('.validate-form .input100').each(function(){
+        $(this).focus(function(){
+            hideValidate(this);
+        });
+    });
+
+    function validate (input) {
+        if($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
+            if($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+                return false;
+            }
+        }
+        else {
+            if($(input).val().trim() == ''){
+                return false;
+            }
+        }
     }
+
+    function showValidate(input) {
+        var thisAlert = $(input).parent();
+
+        $(thisAlert).addClass('alert-validate');
+    }
+
+    function hideValidate(input) {
+        var thisAlert = $(input).parent();
+
+        $(thisAlert).removeClass('alert-validate');
+    }
+
+
+
+})(jQuery);
+
+
+function MakePosNeg() {
+    let temp = document.getElementById("negativeorpositive");
+let image2= document.getElementById("arrow");
+
+
+
+        if (temp.textContent.indexOf('-') == 0) {temp.className = "negative";
+                                               image2.src="/img/600px-Red_Arrow_Down.png"}
+        else {temp.className = "positive";}
+
+}
+onload = MakePosNeg()
+
+
+
+function MakePosNeg2() {
+    let temp = document.getElementById("profitrelated");
+
+
+
+    if (temp.textContent.indexOf('-') == 0) {temp.className = "negative";}
+    else {temp.className = "positive";}
+
+}
+onload = MakePosNeg2()
